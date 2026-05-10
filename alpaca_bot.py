@@ -24,8 +24,8 @@ import numpy as np
 # CONFIGURACIÓN — edita estos valores
 # ─────────────────────────────────────────────
 
-API_KEY    = os.environ["ALPACA_API_KEY"]
-SECRET_KEY = os.environ["ALPACA_SECRET_KEY"]
+API_KEY    = os.getenv("ALPACA_API_KEY", "")
+SECRET_KEY = os.getenv("ALPACA_SECRET_KEY", "")
 
 # Activos a monitorear
 STOCKS = ["AAPL", "TSLA", "NVDA"]       # Acciones
@@ -263,6 +263,9 @@ def mostrar_resumen():
 # ─────────────────────────────────────────────
 
 def main():
+    if not API_KEY or not SECRET_KEY:
+        log.error("Faltan variables de entorno ALPACA_API_KEY o ALPACA_SECRET_KEY")
+        sys.exit(1)
     log.info("🚀 Bot de Trading iniciado — Modo PAPER TRADING")
     log.info(f"   Acciones: {STOCKS}")
     log.info(f"   Crypto:   {CRYPTO}")
